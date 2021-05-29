@@ -17,6 +17,7 @@ VAL_MASK_DIR = '/content/wildfire_dataset/data_zip(2)/val/corrected_labels'
 TEST_IMG_DIR = '/content/wildfire_dataset/data_zip(2)/test/images'
 TEST_RES_DIR = '/content/wildfire_dataset/data_zip(2)/test/results'
 MODEL_NAME = 'efficientnetb7_resize480_dice_cleaned_corrected_1e4'
+DATA_LINK = 'https://www.dropbox.com/s/eso7s52w73s0h5f/wildfire_dataset.zip?dl=0'
 
 fnames = ['JORDAN_235_P1_201901281204_MGA94_55',
        'JORDAN_294_P1_201902011150_MGA94_55',
