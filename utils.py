@@ -1,4 +1,6 @@
-
+import torch
+import numpy as np
+import random
 
 def check_accuracy(loader, model, device="cuda"):
     num_correct = 0
