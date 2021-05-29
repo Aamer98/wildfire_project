@@ -20,12 +20,13 @@ from efficientunet import *
 import albumentations.augmentations.crops.transforms as AT
 import shutil
 import urllib
+from config import *
+from utils import set_seed
 
 
 
 def main():
-    % load_ext
-    tensorboard
+
     train_transform = A.Compose(
         [
             AT.RandomCrop(height=IMAGE_HEIGHT, width=IMAGE_WIDTH),
@@ -102,7 +103,6 @@ def main():
         )
 
     writer.close()
-    % tensorboard - -logdir = runs
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
