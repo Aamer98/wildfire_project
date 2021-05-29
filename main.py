@@ -23,6 +23,11 @@ import urllib
 from config import *
 from utils import set_seed
 
+from config import *
+from utils import *
+from train import *
+from test import *
+from model import *
 
 
 def main():
