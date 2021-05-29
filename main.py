@@ -107,7 +107,7 @@ def main():
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
 
-    urllib.request.urlretrieve ("{}".format(data_link), "wildfire_dataset")
+    urllib.request.urlretrieve ("{}".format(DATA_LINK), "wildfire_dataset")
     main()
     get_test_loader(
         test_dir=TEST_IMG_DIR,
