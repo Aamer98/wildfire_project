@@ -6,6 +6,9 @@ import torch.optim as optim
 from torch.utils.data import DataLoader
 import torchvision
 from utils import *
+import os
+from PIL import Image
+
 
 
 
@@ -76,5 +79,4 @@ def get_loaders(
     )
 
     return train_loader, val_loader
-
 
