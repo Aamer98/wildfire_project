@@ -70,4 +70,3 @@ class UNET(nn.Module):
             x = self.ups[idx + 1](concatenate_skip)
 
         return self.final_conv(x)
-
