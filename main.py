@@ -21,17 +21,13 @@ import albumentations.augmentations.crops.transforms as AT
 import shutil
 import urllib
 from config import *
-from utils import set_seed
-
-from config import *
 from utils import *
 from train import *
 from test import *
 from model import *
+from test import *
 
-
-def main():
-
+def main(model):
     train_transform = A.Compose(
         [
             AT.RandomCrop(height=IMAGE_HEIGHT, width=IMAGE_WIDTH),
@@ -62,7 +58,7 @@ def main():
 
     set_seed(0)
 
-    model = UNET(in_channels=3, out_channels=1).to(DEVICE)
+    
     loss_fn = nn.BCEWithLogitsLoss()  # dont need sigmoid
     optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
 
@@ -83,7 +79,8 @@ def main():
     scaler = torch.cuda.amp.GradScaler()
 
     writer = SummaryWriter()
-
+    if not os.path.exists('/content/saved_images'):
+      os.makedirs('/content/saved_images')
     for epoch in range(NUM_EPOCHS):
         print("Epoch {}/{}".format(epoch, NUM_EPOCHS))
         train_dice, train_loss = train_fn(train_loader, model, optimizer, loss_fn, scaler)
@@ -108,21 +105,39 @@ def main():
         )
 
     writer.close()
+    if not os.path.exists('/content/drive/MyDrive/Wildfire_project/challenge1/{}/'.format(MODEL_NAME)):
+      os.makedirs('/content/drive/MyDrive/Wildfire_project/challenge1/{}/'.format(MODEL_NAME))
+    
+    if not os.path.exists('/content/drive/MyDrive/Wildfire_project/challenge1/{}/saved_images'.format(MODEL_NAME)):
+
+      shutil.copytree('/content/saved_images',
+                    '/content/drive/MyDrive/Wildfire_project/challenge1/{}/saved_images'.format(MODEL_NAME))
+      shutil.copy('/content/my_checkpoint.pth.tar',
+                '/content/drive/MyDrive/Wildfire_project/challenge1/{}/my_checkpoint.pth.tar'.format(MODEL_NAME))
+
+
+
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
 
-    urllib.request.urlretrieve ("{}".format(DATA_LINK), "wildfire_dataset")
-    main()
-    get_test_loader(
-        test_dir=TEST_IMG_DIR,
-        test_maskdir=TEST_IMG_DIR,
-        batch_size=1,
-        val_transform=val_transforms)
 
-    save_test_predictions(
-        loader=test_loader, model=model, folder=TEST_RES_DIR, device=DEVICE
+    model = UNET(in_channels=3, out_channels=1).to(DEVICE)
+    main(model)
+    
+    _,test_loader = get_loaders(
+      TRAIN_IMG_DIR,
+      TRAIN_MASK_DIR,
+      TEST_IMG_DIR,
+      TEST_IMG_DIR,
+      BATCH_SIZE,
+      val_transforms,
+      val_transforms,
+      NUM_WORKERS,
+      PIN_MEMORY
     )
+    load_checkpoint(torch.load("my_checkpoint.pth.tar"), model)
+    save_test_pickle()
 
 
 
