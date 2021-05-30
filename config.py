@@ -1,10 +1,10 @@
 import torch
 
 # Hyperparameters etc
-LEARNING_RATE = 1e-4
+LEARNING_RATE = 1e-2
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 BATCH_SIZE = 1
-NUM_EPOCHS = 300
+NUM_EPOCHS = 3
 NUM_WORKERS = 2
 IMAGE_HEIGHT = 500
 IMAGE_WIDTH = 500
@@ -16,7 +16,7 @@ VAL_IMG_DIR = '/content/wildfire_dataset/data_zip(2)/val/images'
 VAL_MASK_DIR = '/content/wildfire_dataset/data_zip(2)/val/corrected_labels'
 TEST_IMG_DIR = '/content/wildfire_dataset/data_zip(2)/test/images'
 TEST_RES_DIR = '/content/wildfire_dataset/data_zip(2)/test/results'
-MODEL_NAME = 'efficientnetb7_resize480_dice_cleaned_corrected_1e4'
+MODEL_NAME = 'test_model1'
 DATA_LINK = 'https://www.dropbox.com/s/eso7s52w73s0h5f/wildfire_dataset.zip?dl=0'
 
 fnames = ['JORDAN_235_P1_201901281204_MGA94_55',
