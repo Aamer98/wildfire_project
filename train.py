@@ -1,4 +1,32 @@
+import torch
+import torch.nn as nn
+import torchvision.transforms.functional as TF
+from torch.utils.data import Dataset
+import torch.optim as optim
+from torch.utils.data import DataLoader
+import torchvision
+from torch.utils.tensorboard import SummaryWriter
+
+import os
+from PIL import Image
+import numpy as np
+import albumentations as A
+from tqdm import tqdm
+import zipfile
+from albumentations.pytorch.transforms import ToTensorV2
+import logging
+import random
+from efficientunet import *
+import albumentations.augmentations.crops.transforms as AT
 import shutil
+import urllib
+from config import *
+from utils import *
+from train import *
+from test import *
+from model import *
+from data import *
+
 
 def train_fn(loader, model, optimizer, loss_fn, scaler):
     loop = tqdm(loader)
@@ -34,11 +62,5 @@ def train_fn(loader, model, optimizer, loss_fn, scaler):
         loop.set_postfix(loss=loss.item())
     print("Dice score: {}, Loss: {}".format((dice_score / len(loader)), (loss_total / len(loader))))
 
-    os.makedirs('/content/drive/MyDrive/Wildfire_project/challenge1/{}/'.format(MODEL_NAME))
-    shutil.copytree('/content/saved_images',
-                    '/content/drive/MyDrive/Wildfire_project/challenge1/{}/saved_images'.format(MODEL_NAME))
-    shutil.copy('/content/my_checkpoint.pth.tar',
-                '/content/drive/MyDrive/Wildfire_project/challenge1/{}/my_checkpoint.pth.tar'.format(MODEL_NAME))
 
     return ((dice_score / len(loader)), (loss_total / len(loader)))
-
